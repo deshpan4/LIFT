@@ -6,6 +6,7 @@ These instructions will help you to run LIFT from linux environment.
 The LIFT framework consists of two modules:
 * LncRNA Identification Module (LIM)
 * Function prediction Module (FPM)
+
 LIM performs following tasks:
 * Feature Extraction
 * Classification of coding and non-coding RNAs
