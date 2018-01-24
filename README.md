@@ -12,6 +12,7 @@ LIM performs following tasks:
 * Classification of coding and non-coding RNAs
 * Optimization of selected features
 * Genomic annotation of the predicted lncRNAs
+
 FPM performs following tasks:
 * Generation of lncRNA-protein co-expression similarity (LPCS) matrix
 * Generation of protein-protein interaction matrix
