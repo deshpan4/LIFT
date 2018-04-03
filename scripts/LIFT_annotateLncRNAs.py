@@ -18,26 +18,10 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--coding',help='input coding coordinates file in CSV format')
     parser.add_argument('-n', '--noncoding',help='input non-coding coordinates file in CSV format')
-    parser.add_argument('-l', '--min-length',help='Minimum length of target sequence for alignment (default=10)')
-    parser.add_argument('-ov', '--min-overlap',help='Minimum overlap length (default=5)')
-    parser.add_argument('-b', '--bidirectional-cutoff',help='Bidirectional cutoff length (default=1000)')
-    parser.add_argument('-d', '--distance-threshold',help='Distance threshold value (default=50)')
     parser.add_argument('-o', '--output',help='output filename')
+	parser.add_argument('-o1', '--output1',help='output filename')
     parser.add_argument('-v', dest='verbose', action='store_true')
     args = parser.parse_args()
-
-if args.min_length == None:
-	args.min_length = 10
-
-if args.min_overlap == None:
-	args.min_overlap = 5
-
-if args.distance_threshold == None:
-	args.distance_threshold = 50
-
-if args.bidirectional_cutoff == None:
-	args.bidirectional_cutoff = 1000
-
 
 cdf=pd.read_csv(args.coding)
 ndf=pd.read_csv(args.noncoding)
@@ -64,9 +48,6 @@ ncodingChromosome=ndf['chromosome'].values
 
 codingStrand=cdf['strand'].values
 ncodingStrand=ndf['strand'].values
-
-#codingChrLength=cdf['length'].values
-#ncodingChrLength=ndf['length'].values
 
 cwordsArr=[]
 nwordsArr=[]
@@ -221,9 +202,8 @@ def extractORF(forwardFrameArray,sequenceArray,coor):
 		for u in range(0,len(c2)):
 			c2d21.append(d2[u])
 		c2d2.append(c2d21)
-		#print(cwordsArr1[i])		
+	
 		for t in range(0,len(c)):
-				#print(t)
 				test2=cwordsArr1[i][d1[t]:c1[t]]
 				test3.append(test2)
 		orfArray1.append(test3)
@@ -291,19 +271,18 @@ def getOverlaps(cE,cI,nE,nI,minLength,minOverlap,distThreshold):
 			if len(j.get('data'))>=int(minOverlap):
 				for i2 in cE:
 					for j2 in i2:
-						if ((j.get('strand')== '+' and j2.get('strand') == '+')) and j.get('chromosome')==j2.get('chromosome'):
+						if ((j.get('strand')== '+' and j2.get('strand') == '+') or (j.get('strand')== '-' and j2.get('strand') == '-')) and j.get('chromosome')==j2.get('chromosome'):
 							if ((j.get('start') <= j2.get('start') and j.get('end') >= j2.get('start'))) or ((j.get('start') >= j2.get('start') and j.get('start') <= j2.get('end') and j.get('end') >= j2.get('end'))) or ((j.get('start') <= j2.get('start') and j.get('end') >= j2.get('start') and j.get('end') <= j2.get('end'))):
 								alignment = sw.align(j.get('data'),j2.get('data'))
 								print("Sense Overlap Exonic "," sequence: ",str(nE.index(i)+1)," lncRNA start: ",j.get('start')," lncRNA end: ",j.get('end')," mRNA start: ",j2.get('start')," mRNA end: ",j2.get('end'),", Percent identity: ",alignment.identity*100)
 								resultArr.append({'sequence':nE.index(i)+1,'gene_type':'Sense Overlapping Exonic'})
 								annotateResult.append("Sequence "+str(nE.index(i)+1)+sep+"Sense Overlapping Exonic")
-
 	for i in nE:
 		for j in i:
 			if len(j.get('data'))>=int(minOverlap):
 				for i2 in cI:
 					for j2 in i2:
-						if ((j.get('strand')== '-' and j2.get('strand') == '+')) and j.get('chromosome')==j2.get('chromosome'):
+						if ((j.get('strand')== '+' and j2.get('strand') == '+') or (j.get('strand')== '-' and j2.get('strand') == '-')) and j.get('chromosome')==j2.get('chromosome'):
 							if ((j.get('start') <= j2.get('start') and j.get('end') >= j2.get('start'))) or ((j.get('start') >= j2.get('start') and j.get('start') <= j2.get('end') and j.get('end') >= j2.get('end'))) or ((j.get('start') <= j2.get('start') and j.get('end') >= j2.get('start') and j.get('end') <= j2.get('end'))):
 								alignment = sw.align(j.get('data'),j2.get('data'))
 								print("Sense Overlap Intronic "," sequence: ",str(nE.index(i)+1)," lncRNA start: ",j.get('start')," lncRNA end: ",j.get('end')," mRNA start: ",j2.get('start')," mRNA end: ",j2.get('end'),", Percent identity: ",alignment.identity*100)
@@ -314,20 +293,18 @@ def getOverlaps(cE,cI,nE,nI,minLength,minOverlap,distThreshold):
 			if len(j.get('data'))>=int(minOverlap):
 				for i2 in cE:
 					for j2 in i2:
-						if ((j.get('strand')== '-' and j2.get('strand') == '+'))and j.get('chromosome')==j2.get('chromosome'):
+						if ((j.get('strand')== '-' and j2.get('strand') == '+') or (j.get('strand')== '+' and j2.get('strand') == '-'))and j.get('chromosome')==j2.get('chromosome'):
 							if ((j.get('start') <= j2.get('start') and j.get('end') >= j2.get('start'))) or ((j.get('start') >= j2.get('start') and j.get('start') <= j2.get('end') and j.get('end') >= j2.get('end'))) or ((j.get('start') <= j2.get('start') and j.get('end') >= j2.get('start') and j.get('end') <= j2.get('end'))):
 								alignment = sw.align(j.get('data'),j2.get('data'))
 								print("AntiSense Overlap Exonic "," sequence: ",str(nE.index(i)+1)," lncRNA start: ",j.get('start')," lncRNA end: ",j.get('end')," mRNA start: ",j2.get('start')," mRNA end: ",j2.get('end'),", Percent identity: ",alignment.identity*100)
 								resultArr.append({'sequence':nE.index(i)+1,'gene_type':'AntiSense Overlap Exonic'})
 								annotateResult.append("Sequence "+str(nE.index(i)+1)+sep+"AntiSense Overlap Exonic")
-							
-
 	for i in nE:
 		for j in i:
 			if len(j.get('data'))>=int(minOverlap):
 				for i2 in cI:
 					for j2 in i2:
-						if ((j.get('strand')== '-' and j2.get('strand') == '+')) and j.get('chromosome')==j2.get('chromosome'):
+						if ((j.get('strand')== '-' and j2.get('strand') == '+') or (j.get('strand')== '+' and j2.get('strand') == '-')) and j.get('chromosome')==j2.get('chromosome'):
 							if ((j.get('start') <= j2.get('start') and j.get('end') >= j2.get('start'))) or ((j.get('start') >= j2.get('start') and j.get('start') <= j2.get('end') and j.get('end') >= j2.get('end'))) or ((j.get('start') <= j2.get('start') and j.get('end') >= j2.get('start') and j.get('end') <= j2.get('end'))):
 								alignment = sw.align(j.get('data'),j2.get('data'))
 								print("AntiSense Overlap Intronic "," sequence: ",str(nE.index(i)+1)," lncRNA start: ",j.get('start')," lncRNA end: ",j.get('end')," mRNA start: ",j2.get('start')," mRNA end: ",j2.get('end'),", Percent identity: ",alignment.identity*100)
@@ -375,7 +352,6 @@ def getIntergenicOverlaps(codingArray,noncodingArray):
 						annotateResult.append("Sequence "+str((i+1))+sep+"lincRNA")
 			else:
 				break
-
 	return res1	
 
 
@@ -415,6 +391,22 @@ bidirectionalRes=getBidirectionalRNA(corfArr,norfArr,cCoor1,nCoor1,codingStrand,
 
 intergenicRes = getIntergenicOverlaps(codingArray,noncodingArray)
 
+def getIntronicOverlaps(cE,noncodingArray):
+	res1=[]
+	res2=[]
+	intronicRes=[]
+	for i in range(0,len(noncodingArray)):
+		for i2 in range(0,len(cE)):
+			for j2 in range(1,len(cE[i2])):
+				if j2 < len(cE[i2])-1:
+					if noncodingArray[i].get('strand')==cE[i2][j2].get('strand') and noncodingArray[i].get('chromosome')==cE[i2][j2].get('chromosome'):
+						if noncodingArray[i].get('start') > cE[i2][j2-1].get('end') and noncodingArray[i].get('end') < cE[i2][j2+1].get('start'):
+							annotateResult.append("Sequence "+str((i+1))+sep+"intronic lncRNA")
+				else:
+					break
+
+intronicRes = getIntronicOverlaps(codingE,noncodingArray)
+
 annotateResultUnique=[]
 
 annotateResultUnique = np.unique(annotateResult)
@@ -425,6 +417,7 @@ countSoe=[]
 countSoi=[]
 countAoe=[]
 countAoi=[]
+countIntronic=[]
 
 for i in range(0,len(annotateResultUnique)):
 	if "lincRNA" in annotateResultUnique[i]:
@@ -439,6 +432,9 @@ for i in range(0,len(annotateResultUnique)):
 		countAoe.append(1)
 	elif "AntiSense Overlap Intronic" in annotateResultUnique[i]:
 		countAoi.append(1)
+	elif "intronic lncRNA" in annotateResultUnique[i]:
+		countIntronic.append(1)
+
 
 countIntSum=[]
 countBdpSum=[]
@@ -446,13 +442,15 @@ countSoeSum=[]
 countSoiSum=[]
 countAoeSum=[]
 countAoiSum=[]
+countIntronicSum=[]
 
 countIntSum.append(np.sum(countInt))	
 countBdpSum.append(np.sum(countBdp))
 countSoeSum.append(np.sum(countSoe))	
 countSoiSum.append(np.sum(countSoi))	
 countAoeSum.append(np.sum(countAoe))	
-countAoiSum.append(np.sum(countAoi))	
+countAoiSum.append(np.sum(countAoi))
+countIntronicSum.append(np.sum(countIntronic))	
 
 print("Total Intergenic lncRNAs ",countIntSum)
 print("Total Bidirectional lncRNAs ",countBdpSum)
@@ -460,6 +458,17 @@ print("Total SOE lncRNAs ",countSoeSum)
 print("Total SOI lncRNAs ",countSoiSum)
 print("Total AOE lncRNAs ",countAoeSum)
 print("Total AOI lncRNAs ",countAoiSum)
+print("Total Intronic lncRNAs ",countIntronicSum)
+
+countLNC=[]
+countLNC.append("Total SOE lncRNAs "+str(countSoeSum))
+countLNC.append("Total SOI lncRNAs "+str(countSoiSum))
+countLNC.append("Total AOE lncRNAs "+str(countAoeSum))
+countLNC.append("Total AOI lncRNAs "+str(countAoiSum))
+countLNC.append("Total Bidirectional lncRNAs "+str(countBdpSum))
+countLNC.append("Total Intergenic lncRNAs "+str(countIntSum))
+countLNC.append("Total Intronic lncRNAs "+str(countIntronicSum))
 
 np.savetxt(args.output, annotateResult, delimiter="\t", fmt="%s")
-np.savetxt("unique-list.txt", annotateResultUnique, delimiter="\t", fmt="%s")
+
+np.savetxt(args.output1, countLNC, delimiter="\t", fmt="%s")
