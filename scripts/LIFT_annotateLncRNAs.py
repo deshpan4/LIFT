@@ -18,8 +18,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--coding',help='input coding coordinates file in CSV format')
     parser.add_argument('-n', '--noncoding',help='input non-coding coordinates file in CSV format')
-    parser.add_argument('-o', '--output',help='output filename')
-	parser.add_argument('-o1', '--output1',help='output filename')
+    parser.add_argument('-o', '--output',help='output filename1')
+    parser.add_argument('-o1', '--output1',help='output filename2')
     parser.add_argument('-v', dest='verbose', action='store_true')
     args = parser.parse_args()
 
