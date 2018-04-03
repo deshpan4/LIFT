@@ -93,10 +93,8 @@ The script 'LIFT_annotateLncRNAs.py' provides annotation and classification of l
 
 ### Usage
 ```
-python2.7 LIFT_annotateLncRNAs.py -c <coding CSV file> -n <non-coding lncRNA CSV file> -o <output filename>
-usage: annotateLncRNA_New1.py [-h] [-c CODING] [-n NONCODING] [-l MIN_LENGTH]
-                              [-ov MIN_OVERLAP] [-b BIDIRECTIONAL_CUTOFF]
-                              [-d DISTANCE_THRESHOLD] [-o OUTPUT] [-v]
+python2.7 LIFT_annotateLncRNAs.py -c <coding CSV file> -n <non-coding lncRNA CSV file> -o <output filename1> -o1 <output filename2>
+usage: annotateLncRNA_New1.py [-h] [-c CODING] [-n NONCODING] [-o OUTPUT] [-o1 OUTPUT1] [-v]
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -104,17 +102,10 @@ optional arguments:
                         input coding coordinates file in CSV format
   -n NONCODING, --noncoding NONCODING
                         input non-coding coordinates file in CSV format
-  -l MIN_LENGTH, --min-length MIN_LENGTH
-                        Minimum length of target sequence for alignment
-                        (default=10)
-  -ov MIN_OVERLAP, --min-overlap MIN_OVERLAP
-                        Minimum overlap length (default=5)
-  -b BIDIRECTIONAL_CUTOFF, --bidirectional-cutoff BIDIRECTIONAL_CUTOFF
-                        Bidirectional cutoff length (default=1000)
-  -d DISTANCE_THRESHOLD, --distance-threshold DISTANCE_THRESHOLD
-                        Distance threshold value (default=50)
   -o OUTPUT, --output OUTPUT
-                        output filename
+                        output filename1
+  -o1 OUTPUT1, --output1 OUTPUT
+                        output filename2                        
 ```
 
 ## lncRNA function prediction
