@@ -120,14 +120,17 @@ for i in range(maxAcc1,-1,-1):
 
 filArr = [i for i in accDiff if i <= float(args.tolerance)]
 filArr1 = [i for i,x in enumerate(accDiff) if x <= float(args.tolerance)]
-optIndex=max(filArr1)
-optimalIndex=indexArr[optIndex]
-lambda_ = lambdaValArr[optimalIndex]
+if filArr1 == []:
+  lambda_ = lambdaValArr[maxAcc]
+else:
+  optIndex=max(filArr1)
+  optimalIndex=indexArr[optIndex]
+  lambda_ = lambdaValArr[optimalIndex]
+  
 lasso = Lasso(alpha=lambda_)
 lasso.fit(X, y)
 arr1 = [i for i,x in enumerate(lasso.coef_) if x != 0. or x != -0.]
 dfHeaders=np.array(list(df2))
-print("Optimal Features: ",dfHeaders[arr1])
 outdf2=df2[arr1]
 outdf3=df3[arr1]
 oTr=pd.concat([outdf2,df2["species"]],axis=1)
