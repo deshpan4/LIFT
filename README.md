@@ -57,13 +57,13 @@ bash LIFT_extractFeatures.sh -c <coding filename> -n <noncoding filename> -f <ta
 ## Feature Optimization
 The script 'LIFT_LiRFFS.py' performs feature selection for selection of optimal features. Following input files and parameters are required:
 * Training set feature matrix
-* Test set feature matrix
+* Validation set feature matrix
 * Lower cutoff for lambda
 * Upper cutoff for lambda
 * Step size between Lambda values
 * Tolerance level
 * Output training set file with optimal features
-* Output test set file with optimal features
+* Output validation set file with optimal features
 
 ### Usage
 ```
@@ -74,21 +74,30 @@ python3 LIFT_LiRFFS.py --training <training feature set in CSV format> --test <t
 The script 'LIFT_lncRNAPredict.py' predicts lncRNAs based on features extracted. The script requires balanced training set and test set features for accurate classification of lncRNAs. Therefore, following files are required:
 * Training set feature matrix
 * Test set feature matrix
+* Test set FASTA file
 * Output test set file with predicted features
 
 ### Usage
 ```
-python3 LIFT_lncRNAPredict.py --training <training feature set in CSV format with class values> --test <training feature set in CSV format without class values> --output <output filename for predictions>
+usage: LIFT_lncRNAPredict.py [-h] [-tr TRAINING] [-te TEST] [-tef TESTFASTA]
+                             [-o OUTPUT] [-v]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -tr TRAINING, --training TRAINING
+                        input training set feature matrix
+  -te TEST, --test TEST
+                        input test set feature matrix
+  -tef TESTFASTA, --testfasta TESTFASTA
+                        input test set FASTA file
+  -o OUTPUT, --output OUTPUT
+                        output test set prediction filename
 ```
 
 ## lncRNA genomic annotation (sub-classification)
 The script 'LIFT_annotateLncRNAs.py' provides annotation and classification of lncRNAs based on their coordinates. It requires following files and parameters for annotation:
 * Coding sequence and coordinates file having following columns in CSV format: sequence,chromosome,start,end,strand
 * Non-coding sequence and coordinates file having following columns in CSV format: sequence,chromosome,start,end,strand
-* Minimum length of matching sequence (--min-length)
-* Minimum overlap length (--min-overlap)
-* Bidirectional cutoff length (--bidirectional-cutoff)
-* Distance threshold value (--distance-threshold)
 * Output filename
 
 ### Usage
