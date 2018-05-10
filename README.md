@@ -1,21 +1,6 @@
 # LIFT:
 ## LncRNA Identification and Function prediction Tool
-This document provides technical description of the LIFT pipeline for identification, genomic annotation and function prediction of long non-coding RNAs (lncRNAs) based on time-series RNA-Seq data.
-## Getting Started
-These instructions will help you to run LIFT from linux environment.
-The LIFT framework consists of two modules:
-* LncRNA Identification Module (LIM)
-* Function prediction Module (FPM)
-LIM performs the following tasks:
-* Feature Extraction
-* Classification of coding and non-coding RNAs
-* Optimization of the selected features
-* Genomic annotation of the predicted lncRNAs
-FPM performs following tasks:
-* Generation of lncRNA-protein co-expression similarity (LPCS) matrix
-* Generation of protein-protein interaction matrix
-* Generation of protein-function matrix
-* Function prediction of the lncRNAs
+This document provides technical description of the LIFT pipeline for identification, genomic annotation and function prediction of long non-coding RNAs (lncRNAs) based on RNA-Seq data.
 ## Download
 Use git clone:
 ```
@@ -42,73 +27,82 @@ For other systems, please follow the instructions mentioned [here](https://nodej
 ## Tutorial (User Manual)
 The installation consists of complete tutorial "LIFT Tutorial.pdf" demonstrating usage of the scripts. The installation also contains example datasets in the **"data"** folder.
 For usage instructions of the scripts and data, please refer **"LIFT Tutorial.pdf"** tutorial.
-### Usage
-LIFT consists of five main scripts:
-* LIFT_extractFeatures.sh (Feature extraction)
-* LIFT_LiRFFS.py (Feature optimization)
-* LIFT_lncRNAPredict.py (Predict lncRNAs)
-* LIFT_annotateLncRNAs.py (Annotate lncRNAs)
-* LIFT function prediction scripts
-## Feature Extraction
-The script 'LIFT_extractFeatures.sh' extract features from FASTA file for identification of lncRNA transcripts. Following input files are needed for extraction of features:
-* Target FASTA file
-* Coding FASTA file
-* Non-coding FASTA file
+## Usage scripts
+LIFT consists of nine main scripts:
+* LIFT_extractFeatures_testSet.sh (Feature extraction of test set sequences)
+* LIFT_extractFeatures_trainingSet.sh (Feature extraction of training set sequences)
+* LIFT_lncRNAPredict.py (Prediction of lncRNA sequences from test set sequences)
+* LIFT_LiRFFS.py (Identification of optimal features)
+* LIFT_annotateLncRNAs.py (Sub-classification of lncRNA sequences)
+* normalizeLPExpression.R (Normalization of expression values)
+* computeLPCSmatrix.py (Computation of LPCS matrix)
+* predictFunction.R (Prediction of lncRNA functions)
+* appendFunction.R (Annotation of Gene Ontology functions and function type)
+### Feature Extraction of test set sequences
+The script 'LIFT_extractFeatures_testSet.sh' extract features from test set FASTA file for identification of lncRNA transcripts. Following input files are needed for extraction of features:
+* Coding FASTA sequences
+* Noncoding FASTA sequences
+* Test set FASTA file
 * Output filename
 * Scripts directory
 
-### Usage
+#### Usage
 ```
-bash LIFT_extractFeatures.sh -c <coding filename> -n <noncoding filename> -f <target filename for feature extraction in FASTA format> -scripts <path to scripts directory> -o <output filename>
+bash LIFT_extractFeatures_testSet.sh -testc <coding filename> -testl <noncoding filename> -fasta <target filename for feature extraction in FASTA format> -output <output filename> -scripts /LIFT/lib -b /LIFT/lib -cpat /LIFT/lib
 ```
+NOTE: For detailed usage, please see the tutorial. 
 
-## Feature Optimization
+### Feature extraction of training set sequences
+The script 'LIFT_extractFeatures_trainingSet.sh' extract features from training set FASTA file for identification of lncRNA transcripts. Following input files are needed for extraction of features:
+* Training coding FASTA sequences
+* Training noncoding FASTA sequences
+* Output filename
+* Scripts directory
+
+#### Usage
+```
+bash LIFT_extractFeatures_trainingSet.sh -coding <coding filename> -noncoding <noncoding filename> -output <output filename> -scripts /LIFT/lib -b /LIFT/lib -cpat /LIFT/lib
+```
+NOTE: For detailed usage, please see the tutorial. 
+
+### Prediction of lncRNA sequences from test set sequences
+The script 'LIFT_lncRNAPredict.py' predicts lncRNA sequences from the test set FASTA sequences using training set sequences. The script requires following input files:
+* Training set matrix
+* Test set matrix
+* Test set FASTA sequences
+
+#### Usage
+```
+python3 LIFT_lncRNAPredict.py -tr <Training set matrix file> -te <Test set matrix file> -tef <Test set FASTA sequences> -o <Output filename>
+```
+NOTE: For detailed usage, please see the tutorial. 
+
+### Feature Optimization
 The script 'LIFT_LiRFFS.py' performs feature selection for selection of optimal features. Following input files and parameters are required:
-* Training set feature matrix
-* Validation set feature matrix
-* Lower cutoff for lambda
-* Upper cutoff for lambda
-* Step size between Lambda values
-* Tolerance level
-* Output training set file with optimal features
-* Output validation set file with optimal features
+* Training set feature matrix (tr)
+* Validation set feature matrix (te)
+* Lower cutoff for lambda (lambdaL)
+* Upper cutoff for lambda (lambdaU)
+* Step size between Lambda values (lambdaS)
+* Tolerance level (tol)
+* output training set with minimal optimal features (otrMin)
+* Output validation set with minimal optimal features (oteMin)
+* output training set with maximal optimal features (otrMax)
+* Output validation set with maximal optimal features (oteMax)
 
-### Usage
+#### Usage
 ```
-python3 LIFT_LiRFFS.py --training <training feature set in CSV format> --test <test feature set in CSV format> --lambdaLower <input lower lambda value> --lambdaUpper <input upper lambda value> --lambdaStepSize <input lambda step size> --tolerance <input tolerance value> --outputTr <output training set filename with optimal features> --outputTe <output test set with optimal features>
+python3 LIFT_LiRFFS.py -tr <training feature set in CSV format> -te <test feature set in CSV format> -lambdaL <input lower lambda value> -lambdaU <input upper lambda value> -lambdaS <input lambda step size> -tol <input tolerance value> -otrMin <output training set filename with minimal optimal features> -oteMin <output validation set with minimal optimal features> -otrMax <output training set filename with maximal optimal features> -oteMax <output validation set with maximal optimal features>
 ```
+NOTE: For detailed usage, please see the tutorial. 
 
-## lncRNA Identification
-The script 'LIFT_lncRNAPredict.py' predicts lncRNAs based on features extracted. The script requires balanced training set and test set features for accurate classification of lncRNAs. Therefore, following files are required:
-* Training set feature matrix
-* Test set feature matrix
-* Test set FASTA file
-* Output test set file with predicted features
-
-### Usage
-```
-usage: LIFT_lncRNAPredict.py [-h] [-tr TRAINING] [-te TEST] [-tef TESTFASTA]
-                             [-o OUTPUT] [-v]
-
-optional arguments:
-  -h, --help            show this help message and exit
-  -tr TRAINING, --training TRAINING
-                        input training set feature matrix
-  -te TEST, --test TEST
-                        input test set feature matrix
-  -tef TESTFASTA, --testfasta TESTFASTA
-                        input test set FASTA file
-  -o OUTPUT, --output OUTPUT
-                        output test set prediction filename
-```
-
-## lncRNA genomic annotation (sub-classification)
+### lncRNA genomic annotation or sub-classification of lncRNA sequences
 The script 'LIFT_annotateLncRNAs.py' provides annotation and classification of lncRNAs based on their coordinates. It requires following files and parameters for annotation:
 * Coding sequence and coordinates file having following columns in CSV format: sequence,chromosome,start,end,strand
 * Non-coding sequence and coordinates file having following columns in CSV format: sequence,chromosome,start,end,strand
 * Output filename
 
-### Usage
+#### Usage
 ```
 python2.7 LIFT_annotateLncRNAs.py -c <coding CSV file> -n <non-coding lncRNA CSV file> -o <output filename1> -o1 <output filename2>
 usage: annotateLncRNA_New1.py [-h] [-c CODING] [-n NONCODING] [-o OUTPUT] [-o1 OUTPUT1] [-v]
@@ -124,8 +118,9 @@ optional arguments:
   -o1 OUTPUT1, --output1 OUTPUT
                         output filename2                        
 ```
+NOTE: For detailed usage, please see the tutorial. 
 
-## lncRNA function prediction
+### lncRNA function prediction
 The script 'LIFT_functionPrediction.sh' generates lncRNA-protein co-expression similarity (LPCS) matrix based on relative expression of FPKM values using RNA-Seq data. Then, it performs function prediction of lncRNAs using BMRF. This script requires following steps:
 
 * FPKM values of lncRNA and mRNA transcript sequences from RNA-Seq data analysis
