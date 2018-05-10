@@ -6,10 +6,10 @@ These instructions will help you to run LIFT from linux environment.
 The LIFT framework consists of two modules:
 * LncRNA Identification Module (LIM)
 * Function prediction Module (FPM)
-LIM performs following tasks:
+LIM performs the following tasks:
 * Feature Extraction
 * Classification of coding and non-coding RNAs
-* Optimization of selected features
+* Optimization of the selected features
 * Genomic annotation of the predicted lncRNAs
 FPM performs following tasks:
 * Generation of lncRNA-protein co-expression similarity (LPCS) matrix
@@ -25,6 +25,7 @@ git clone https://github.com/deshpan4/LIFT
 Download the folder using 'git clone' command. Make sure all the dependencies are installed before running the framework.
 ## Prerequisites
 Following tools should be installed before executing this pipeline on the host system:
+* NodeJS
 * SAMtools
 * Python2.7 and Python3
 * Bowtie2
@@ -34,6 +35,10 @@ Following tools should be installed before executing this pipeline on the host s
 * BMRF (https://github.com/jwbargsten/bmrf)
 * iRF (https://github.com/sumbose/iRF)
 * AUC
+### NodeJS installation
+For installing NodeJS on Ubuntu-based linux distributions, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions).
+For Enterprise linux and Fedora systems, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora)
+For other systems, please follow the instructions mentioned [here](https://nodejs.org/en/download/package-manager/)
 ### Usage
 LIFT consists of five main scripts:
 * LIFT_extractFeatures.sh (Feature extraction)
