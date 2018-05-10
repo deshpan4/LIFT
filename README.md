@@ -63,7 +63,7 @@ The script 'LIFT_extractFeatures_trainingSet.sh' extract features from training 
 ```
 bash LIFT_extractFeatures_trainingSet.sh -coding <coding filename> -noncoding <noncoding filename> -output <output filename> -scripts /LIFT/lib -b /LIFT/lib -cpat /LIFT/lib
 ```
-NOTE: For detailed usage, please see the tutorial. 
+**NOTE: For detailed usage, please see the tutorial.** 
 
 ### Prediction of lncRNA sequences from test set sequences
 The script 'LIFT_lncRNAPredict.py' predicts lncRNA sequences from the test set FASTA sequences using training set sequences. The script requires following input files:
@@ -94,7 +94,7 @@ The script 'LIFT_LiRFFS.py' performs feature selection for selection of optimal 
 ```
 python3 LIFT_LiRFFS.py -tr <training feature set in CSV format> -te <test feature set in CSV format> -lambdaL <input lower lambda value> -lambdaU <input upper lambda value> -lambdaS <input lambda step size> -tol <input tolerance value> -otrMin <output training set filename with minimal optimal features> -oteMin <output validation set with minimal optimal features> -otrMax <output training set filename with maximal optimal features> -oteMax <output validation set with maximal optimal features>
 ```
-NOTE: For detailed usage, please see the tutorial. 
+**NOTE: For detailed usage, please see the tutorial.**
 
 ### lncRNA genomic annotation or sub-classification of lncRNA sequences
 The script 'LIFT_annotateLncRNAs.py' provides annotation and classification of lncRNAs based on their coordinates. It requires following files and parameters for annotation:
@@ -121,22 +121,7 @@ optional arguments:
 NOTE: For detailed usage, please see the tutorial. 
 
 ### lncRNA function prediction
-The script 'LIFT_functionPrediction.sh' generates lncRNA-protein co-expression similarity (LPCS) matrix based on relative expression of FPKM values using RNA-Seq data. Then, it performs function prediction of lncRNAs using BMRF. This script requires following steps:
-
-* FPKM values of lncRNA and mRNA transcript sequences from RNA-Seq data analysis
-* Protein IDs associated with GO terms.
-* Protein-protein interaction (PPI) matrix file in required format (example): 
-
-```
-Zm00001d002235	Zm00001d015999	0.818921668362157
-Zm00001d002235	Zm00001d041988	0.818921668362157
-Zm00001d002235	Zm00001d041988	0.818921668362157
-Zm00001d002235	Zm00001d022551	0.945066124109868
-Zm00001d002235	Zm00001d022551	0.945066124109868
-```
-where column 1 is first interacting protein, column 2 is second interacting protein and column 3 is strength of interaction. NOTE: header should not be present
-
-* The format of FPKM file should be in following format:
+For prediction of lncRNA functions, FPKM expression values are required. The format of FPKM file should be in following format:
 
 ```
 genename	sample1_FPKM	sample2_FPKM	sample3_FPKM
@@ -144,7 +129,7 @@ Zm00001d023154	0.761938	0.192704	0.837553
 Zm00001d023190	6.14269	2.57758	3.90534
 Zm00001d023074	2.85049	1.73323	2.50522
 ```
-NOTE: header should be present in the file
+**NOTE: For detailed usage, please see the tutorial.**
 
 * Once the lncRNA and mRNA FPKM files are obtained, run the following script to compute relative expression:
 
@@ -156,9 +141,9 @@ Rscript normalizeLPExpression.R <lncRNA FPKM file> <mRNA FPKM file>
 
 * Once the FPKM values are normalized, compute the LPCS matrix using the following script 'computeLPCSmatrix.py':
 
-### Usage
+#### Usage
 ```
-usage: computeLPCSmatrix.py [-h] [-c CODING] [-n NONCODING] [-o OUTPUT] [-v]
+usage: /usr/bin/python2.7 computeLPCSmatrix.py -c <CODING FPKM expression file> -n <NONCODING FPKM expression file> -o <OUTPUT file>
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -170,7 +155,6 @@ optional arguments:
                         format
   -o OUTPUT, --output OUTPUT
                         output filename of LPCS matrix
-  -v
 ```
 * Concatenate the LPCS matrix and PPI matrix files as a single file. 
 * The GOTerms file should have the following format:
@@ -188,9 +172,25 @@ NOTE: header should not be present
 
 * Run the following script to obtain function prediction:
 
-### Usage
+#### Usage
+For prediction of lncRNA function, following command is required:
 ```
 usage:
 
 Rscript predictFunction.R <LPCS-PPI matrix file> <Protein IDs associated with GOterms> <Output filename>
 ```
+### Annotation and filtering of lncRNA sequences based on probability value
+The 'appendFunction.R' script is used for annotation and filtering the lncRNA sequences based on probability and Gene Ontology data. Following input files and parameters are required:
+* Output prediction file
+* Protein-coding GO annotation file
+* lncRNA identifiers
+* Cutoff value
+* Output file
+#### Usage
+```
+usage:
+
+Rscript appendFunction.R <Predicted lncRNA function association file> <protein-coding Gene Ontology annotated file> <lncRNA gene identifiers/genenames> <Probability cutoff value> <Output filename>
+```
+
+**NOTE: For detailed usage, please see the tutorial.**
