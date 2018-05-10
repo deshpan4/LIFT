@@ -40,8 +40,8 @@ For installing NodeJS on Ubuntu-based linux distributions, follow the instructio
 For Enterprise linux and Fedora systems, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora)
 For other systems, please follow the instructions mentioned [here](https://nodejs.org/en/download/package-manager/)
 ## Tutorial (User Manual)
-The installation consists of complete tutorial "LIFT Tutorial.pdf" demonstrating usage of the scripts. The installation also contains example datasets in the "data" folder.
-For usage instructions of the scripts and data, please refer "LIFT Tutorial.pdf" tutorial.
+The installation consists of complete tutorial "LIFT Tutorial.pdf" demonstrating usage of the scripts. The installation also contains example datasets in the **"data"** folder.
+For usage instructions of the scripts and data, please refer **"LIFT Tutorial.pdf"** tutorial.
 ### Usage
 LIFT consists of five main scripts:
 * LIFT_extractFeatures.sh (Feature extraction)
