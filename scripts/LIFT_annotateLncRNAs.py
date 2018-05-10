@@ -52,6 +52,11 @@ ncodingStrand=ndf['strand'].values
 cwordsArr=[]
 nwordsArr=[]
 
+min_length = 10
+min_overlap = 5
+distance_threshold = 50
+bidirectional_cutoff = 1000
+
 for i in range(0,len(cwordsArr1)):
 	cwordsArr.append(list(cwordsArr1[i]))
 
@@ -337,7 +342,7 @@ def getOverlap(left,right,min_overlap):
 		else:
 			return "middle:"+left+" - "+right+" perc: 100"
 
-result=getOverlaps(codingE,codingI,noncodingE,noncodingI,args.min_length,args.min_overlap,args.distance_threshold)
+result=getOverlaps(codingE,codingI,noncodingE,noncodingI,min_length,min_overlap,distance_threshold)
 
 def getIntergenicOverlaps(codingArray,noncodingArray):
 	res1=[]
@@ -387,7 +392,7 @@ def getBidirectionalRNA(codingArray,ncodingArray,codingCoor,ncodingCoor,cStrand,
 					annotateResult.append("Sequence "+str(nseqList1[i].get('sequence'))+sep+"Bidirectional promoter")
 	return resultArr 				
 
-bidirectionalRes=getBidirectionalRNA(corfArr,norfArr,cCoor1,nCoor1,codingStrand,ncodingStrand,codingChromosome,ncodingChromosome)
+bidirectionalRes = getBidirectionalRNA(corfArr,norfArr,cCoor1,nCoor1,codingStrand,ncodingStrand,codingChromosome,ncodingChromosome)
 
 intergenicRes = getIntergenicOverlaps(codingArray,noncodingArray)
 
@@ -405,7 +410,15 @@ def getIntronicOverlaps(cE,noncodingArray):
 				else:
 					break
 
-intronicRes = getIntronicOverlaps(codingE,noncodingArray)
+
+def getAntisenseRNA(noncodingArray):
+	for i in range(0,len(noncodingArray)):
+		if noncodingArray[i].get('strand')=='-':
+			annotateResult.append("Sequence "+str((i+1))+sep+"Antisense lncRNA")
+
+antisenseRNAres = getAntisenseRNA(noncodingArray)
+
+#intronicRes = getIntronicOverlaps(codingE,noncodingArray)
 
 annotateResultUnique=[]
 
@@ -432,7 +445,7 @@ for i in range(0,len(annotateResultUnique)):
 		countAoe.append(1)
 	elif "AntiSense Overlap Intronic" in annotateResultUnique[i]:
 		countAoi.append(1)
-	elif "intronic lncRNA" in annotateResultUnique[i]:
+	elif "Antisense lncRNA" in annotateResultUnique[i]:
 		countIntronic.append(1)
 
 
@@ -458,7 +471,7 @@ print("Total SOE lncRNAs ",countSoeSum)
 print("Total SOI lncRNAs ",countSoiSum)
 print("Total AOE lncRNAs ",countAoeSum)
 print("Total AOI lncRNAs ",countAoiSum)
-print("Total Intronic lncRNAs ",countIntronicSum)
+print("Total Antisense lncRNAs ",countIntronicSum)
 
 countLNC=[]
 countLNC.append("Total SOE lncRNAs "+str(countSoeSum))
@@ -467,7 +480,7 @@ countLNC.append("Total AOE lncRNAs "+str(countAoeSum))
 countLNC.append("Total AOI lncRNAs "+str(countAoiSum))
 countLNC.append("Total Bidirectional lncRNAs "+str(countBdpSum))
 countLNC.append("Total Intergenic lncRNAs "+str(countIntSum))
-countLNC.append("Total Intronic lncRNAs "+str(countIntronicSum))
+countLNC.append("Total Antisense lncRNAs "+str(countIntronicSum))
 
 np.savetxt(args.output, annotateResult, delimiter="\t", fmt="%s")
 

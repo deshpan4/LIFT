@@ -91,7 +91,7 @@ def resultOutput(prediction,output):
 	fasta6=fasta5.rename(index=str, columns={0: "Sequence_name"})
 	pfasta=[fasta6,pred2]
 	result = pd.concat([fasta6,pred2],axis=1)
-	return result
+	#return result
 	result.to_csv(output, sep=',',index=False)
 
 preds_1 = predictTestData(args.training,args.test)
