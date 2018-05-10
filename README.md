@@ -175,8 +175,6 @@ NOTE: header should not be present
 #### Usage
 For prediction of lncRNA function, following command is required:
 ```
-usage:
-
 Rscript predictFunction.R <LPCS-PPI matrix file> <Protein IDs associated with GOterms> <Output filename>
 ```
 ### Annotation and filtering of lncRNA sequences based on probability value
@@ -188,8 +186,6 @@ The 'appendFunction.R' script is used for annotation and filtering the lncRNA se
 * Output file
 #### Usage
 ```
-usage:
-
 Rscript appendFunction.R <Predicted lncRNA function association file> <protein-coding Gene Ontology annotated file> <lncRNA gene identifiers/genenames> <Probability cutoff value> <Output filename>
 ```
 
