@@ -22,15 +22,15 @@ Use git clone:
 git clone https://github.com/deshpan4/LIFT
 ```
 ## Installation
-Download the folder using 'git clone' command. Make sure all the dependencies are installed before running the framework.
+Download the folder using 'git clone https://github.com/deshpan4/LIFT.git' command. Make sure all the dependencies are installed before running the framework.
 ## Prerequisites
 Following tools should be installed before executing this pipeline on the host system:
 * NodeJS
-* SAMtools
 * Python2.7 and Python3
+* R version 3.3 or higher
 * Bowtie2
 * [Index and annotation for A.thaliana](ftp://igenome:G3nom3s4u@ussd-ftp.illumina.com/Arabidopsis_thaliana/Ensembl/TAIR10/Arabidopsis_thaliana_Ensembl_TAIR10.tar.gz)
-* R version 3.3 or higher
+* SAMtools
 ### R packages
 * BMRF (https://github.com/jwbargsten/bmrf)
 * iRF (https://github.com/sumbose/iRF)
@@ -39,6 +39,9 @@ Following tools should be installed before executing this pipeline on the host s
 For installing NodeJS on Ubuntu-based linux distributions, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions).
 For Enterprise linux and Fedora systems, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora)
 For other systems, please follow the instructions mentioned [here](https://nodejs.org/en/download/package-manager/)
+## Tutorial (User Manual)
+The installation consists of complete tutorial "LIFT Tutorial.pdf" demonstrating usage of the scripts. The installation also contains example datasets in the "data" folder.
+For usage instructions of the scripts and data, please refer "LIFT Tutorial.pdf" tutorial.
 ### Usage
 LIFT consists of five main scripts:
 * LIFT_extractFeatures.sh (Feature extraction)
