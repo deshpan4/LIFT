@@ -50,7 +50,7 @@ The script 'LIFT_extractFeatures_testSet.sh' extract features from test set FAST
 ```
 bash LIFT_extractFeatures_testSet.sh -testc <coding filename> -testl <noncoding filename> -fasta <target filename for feature extraction in FASTA format> -output <output filename> -scripts /LIFT/lib -b /LIFT/lib -cpat /LIFT/lib
 ```
-NOTE: For detailed usage, please see the tutorial. 
+**NOTE: For detailed usage, please see the tutorial.** 
 
 ### Feature extraction of training set sequences
 The script 'LIFT_extractFeatures_trainingSet.sh' extract features from training set FASTA file for identification of lncRNA transcripts. Following input files are needed for extraction of features:
