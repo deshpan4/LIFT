@@ -25,6 +25,25 @@ Following tools should be installed before executing this pipeline on the host s
 * Rpy2
 * Numpy
 * Sklearn
+### Python packages installation
+* Pandas can be installed via pip from [PyPI](https://pypi.org/project/pandas/). To install Pandas, type in the following command:
+```
+pip install pandas
+```
+* Numpy can either be installed by pip or by apt-get commands. For installation using pip, type in the following command:
+```
+python -m pip install --user numpy scipy matplotlib ipython jupyter pandas sympy nose
+```
+For installation using apt-get, type in the following command:
+```
+sudo apt-get install python-numpy python-scipy python-matplotlib ipython ipython-notebook python-pandas python-sympy python-nose
+```
+* For installing Rpy2, type in the following command:
+```
+pip install rpy2
+# or
+easy_install rpy2
+```
 ### NodeJS installation
 For installing NodeJS on Ubuntu-based linux distributions, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions).
 For Enterprise linux and Fedora systems, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora)
