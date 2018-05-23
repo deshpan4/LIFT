@@ -44,6 +44,13 @@ pip install rpy2
 # or
 easy_install rpy2
 ```
+* For installing sklearn, type in the following command if the system has a working installation of numpy and scipy:
+```
+pip install -U scikit-learn
+# or
+conda install scikit-learn
+```
+
 ### NodeJS installation
 For installing NodeJS on Ubuntu-based linux distributions, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions).
 For Enterprise linux and Fedora systems, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora)
