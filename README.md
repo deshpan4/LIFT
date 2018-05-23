@@ -20,6 +20,11 @@ Following tools should be installed before executing this pipeline on the host s
 * BMRF (https://github.com/jwbargsten/bmrf)
 * iRF (https://github.com/sumbose/iRF)
 * AUC
+### Python packages
+* Pandas
+* Rpy2
+* Numpy
+* Sklearn
 ### NodeJS installation
 For installing NodeJS on Ubuntu-based linux distributions, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions).
 For Enterprise linux and Fedora systems, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora)
