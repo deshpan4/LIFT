@@ -25,6 +25,7 @@ Following tools should be installed before executing this pipeline on the host s
 * Rpy2
 * Numpy
 * Sklearn
+* Swalign
 ### Python packages installation
 * Pandas can be installed via pip from [PyPI](https://pypi.org/project/pandas/). To install Pandas, type in the following command:
 ```
@@ -50,7 +51,24 @@ pip install -U scikit-learn
 # or
 conda install scikit-learn
 ```
-
+* For installing swalign, an activated Bioconda channel is required. 
+For installing Bioconda, conda installation is required:
+1. Install Miniconda: [http://conda.pydata.org/miniconda.html](http://conda.pydata.org/miniconda.html)
+2. Add the bioconda channel:
+```
+conda config --add channels r
+conda config --add channels defaults
+conda config --add channels conda-forge
+conda config --add channels bioconda
+```
+3. Install swalign with the following command:
+```
+conda install swalign
+```
+and update with
+```
+conda update swalign
+```
 ### NodeJS installation
 For installing NodeJS on Ubuntu-based linux distributions, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions).
 For Enterprise linux and Fedora systems, follow the instructions as mentioned [here](https://nodejs.org/en/download/package-manager/#enterprise-linux-and-fedora)
